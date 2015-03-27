@@ -14,7 +14,6 @@ import org.apache.uima.util.CasToInlineXml;
  * Created by lapps on 3/27/2015.
  */
 public class CasWriter extends JCasConsumer_ImplBase {
-
     @Override
     public void process(JCas aJCas) throws AnalysisEngineProcessException {
         try {

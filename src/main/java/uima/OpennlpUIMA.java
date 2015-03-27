@@ -68,5 +68,7 @@ public class OpennlpUIMA {
         AnalysisEngineDescription writer = createEngineDescription(CasWriter.class);
 // Run pipeline
         SimplePipeline.runPipeline(document, sentenceDetector, tokenizer, posTagger, writer);
+
+
     }
 }
