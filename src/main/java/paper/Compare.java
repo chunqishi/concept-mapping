@@ -52,10 +52,10 @@ public class Compare {
         System.setProperty("gate.site.config", new File(gatedir,"gate.xml").getPath());
         System.setProperty("gate.plugins.home", new File(gatedir, "plugins").getPath());
         Gate.init();
+        Out.prln("...GATE initialised");
     }
 
     public static CorpusController gateLoadAnnie() throws Exception {
-        Out.prln("...GATE initialised");
         // initialise ANNIE (this may take several minutes)
         Out.prln("Initialising ANNIE...");
         // load the ANNIE application from the saved state in plugins/ANNIE
@@ -65,6 +65,20 @@ public class Compare {
         CorpusController annieController =
                 (CorpusController) PersistenceManager.loadObjectFromFile(annieGapp);
         Out.prln("...ANNIE loaded");
+        return annieController;
+    }
+
+    public static CorpusController gateLoadOpenNLP() throws Exception {
+        // initialise ANNIE (this may take several minutes)
+        Out.prln("Initialising OpenNLP...");
+        // load the ANNIE application from the saved state in plugins/ANNIE
+        File pluginsHome = Gate.getPluginsHome();
+        File opennlpPlugin = new File(pluginsHome, "OpenNLP");
+        File opennlpResources = new File(opennlpPlugin, "resources");
+        File opennlpGapp = new File(opennlpResources, "opennlp.gapp");
+        CorpusController annieController =
+                (CorpusController) PersistenceManager.loadObjectFromFile(opennlpGapp);
+        Out.prln("...OpenNLP loaded");
         return annieController;
     }
 
@@ -158,30 +172,15 @@ public class Compare {
                 UimaUtil.MODEL_PARAMETER,
                 POSModelResourceImpl.class,
                 "http://opennlp.sourceforge.net/models-1.5/en-pos-perceptron.bin");
-
-//        AnalysisEngineDescription personNer = AnalysisEngineFactory.createEngineDescription(
-//                NameFinder.class,
-//                UimaUtil.MODEL_PARAMETER,
-//                ExternalResourceFactory.createExternalResourceDescription(
-//                        TokenNameFinderModelResourceImpl.class,
-//                        "http://opennlp.sourceforge.net/models-1.5/en-ner-person.bin"),
-//                UimaUtil.SENTENCE_TYPE_PARAMETER,
-//                sentenceType.getName(),
-//                UimaUtil.TOKEN_TYPE_PARAMETER,
-//                tokenType.getName(),
-//                UimaUtil.POS_FEATURE_PARAMETER,
-//                posFeature.getShortName(),
-//                "opennlp.uima.NameType",nameType.getName());
-
         AnalysisEngineDescription personNer = createEngineDescription(
                 NameFinder.class,
                 UimaUtil.TOKEN_TYPE_PARAMETER, tokenType.getName(),
                 UimaUtil.SENTENCE_TYPE_PARAMETER, sentenceType.getName(),
                 UimaUtil.POS_FEATURE_PARAMETER, posFeature.getShortName(),
                 "opennlp.uima.NameType",nameType.getName());
-        createDependencyAndBind(tokenizer,
+        createDependencyAndBind(personNer,
                 UimaUtil.MODEL_PARAMETER,
-                TokenizerModelResourceImpl.class,
+                TokenNameFinderModelResourceImpl.class,
                 "http://opennlp.sourceforge.net/models-1.5/en-ner-person.bin");
 
 //        AnalysisEngineDescription writer = createEngineDescription(CasWriter.class);
@@ -196,6 +195,7 @@ public class Compare {
         File file = FileUtils.toFile(resourceURL);
         gateInit();
         CorpusController ctrl = gateLoadAnnie();
+        ctrl = gateLoadOpenNLP();
         String gateannie = gateExecute(ctrl, file.getAbsolutePath());
         File savefile = new File(file.getPath().replace(".txt", "_gateannie.txt"));
         System.out.println(savefile);
