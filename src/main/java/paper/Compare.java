@@ -1,10 +1,8 @@
 package paper;
 
-import edu.stanford.nlp.ling.CoreAnnotations;
-import edu.stanford.nlp.pipeline.*;
-import edu.stanford.nlp.util.CoreMap;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.pipeline.XMLOutputter;
 import gate.*;
-import gate.Annotation;
 import gate.util.Out;
 import gate.util.persistence.PersistenceManager;
 import opennlp.uima.namefind.NameFinder;
@@ -16,24 +14,20 @@ import opennlp.uima.sentdetect.SentenceModelResourceImpl;
 import opennlp.uima.tokenize.Tokenizer;
 import opennlp.uima.tokenize.TokenizerModelResourceImpl;
 import opennlp.uima.util.UimaUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.cas.Type;
-import org.apache.uima.fit.factory.AnalysisEngineFactory;
-import org.apache.uima.fit.factory.ExternalResourceFactory;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.CasToInlineXml;
-import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.json.XML;
-import uima.CasWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
@@ -188,6 +182,9 @@ public class Compare {
         SimplePipeline.runPipeline(document, sentenceDetector, tokenizer, posTagger, personNer);
         return new CasToInlineXml().generateXML(document.getCas());
     }
+
+
+
 
 
     public static void main(String []args) throws Exception{
