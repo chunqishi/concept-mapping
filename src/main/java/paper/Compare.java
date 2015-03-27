@@ -8,6 +8,7 @@ import gate.Annotation;
 import gate.util.Out;
 import gate.util.persistence.PersistenceManager;
 import opennlp.uima.namefind.NameFinder;
+import opennlp.uima.namefind.TokenNameFinderModelResourceImpl;
 import opennlp.uima.postag.POSModelResourceImpl;
 import opennlp.uima.postag.POSTagger;
 import opennlp.uima.sentdetect.SentenceDetector;
@@ -18,6 +19,8 @@ import opennlp.uima.util.UimaUtil;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.cas.Type;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
+import org.apache.uima.fit.factory.ExternalResourceFactory;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.CasToInlineXml;
@@ -43,27 +46,32 @@ import static org.apache.uima.fit.factory.JCasFactory.createJCasFromPath;
  *  2.
  */
 public class Compare {
-
-    public static String gate(String path) throws Exception {
+    public static void gateInit() throws Exception {
         Out.prln("Initialising GATE...");
         File gatedir = FileUtils.toFile(Compare.class.getResource("/gate/"));
         System.setProperty("gate.site.config", new File(gatedir,"gate.xml").getPath());
         System.setProperty("gate.plugins.home", new File(gatedir, "plugins").getPath());
         Gate.init();
+    }
+
+    public static CorpusController gateLoadAnnie() throws Exception {
         Out.prln("...GATE initialised");
         // initialise ANNIE (this may take several minutes)
         Out.prln("Initialising ANNIE...");
         // load the ANNIE application from the saved state in plugins/ANNIE
         File pluginsHome = Gate.getPluginsHome();
-//        File pluginsHome = new File("C:\\Program Files\\GATE_Developer_8.0\\plugins");
         File anniePlugin = new File(pluginsHome, "ANNIE");
         File annieGapp = new File(anniePlugin, "ANNIE_with_defaults.gapp");
         CorpusController annieController =
                 (CorpusController) PersistenceManager.loadObjectFromFile(annieGapp);
         Out.prln("...ANNIE loaded");
+        return annieController;
+    }
+
+    public static String gateExecute(CorpusController annieController, String path) throws Exception {
         // create a GATE corpus and add a document for each command-line
         // argument
-        Corpus corpus = Factory.newCorpus("StandAloneAnnie corpus");
+        Corpus corpus = Factory.newCorpus("Prepare corpus ...");
         String [] files  = new String []{new File(path).toURI().toURL().toExternalForm()};
         Out.prln("files.length = " + files.length);
         for(int i = 0; i < files.length; i++) {
@@ -79,12 +87,10 @@ public class Compare {
         } // for each of files
 
         // tell the pipeline about the corpus and run it
-//        annie.setCorpus(corpus);
         annieController.setCorpus(corpus);
-//        annie.execute();
-        Out.prln("Running ANNIE...");
+        Out.prln("Running GATE Controller...");
         annieController.execute();
-        Out.prln("...ANNIE complete");
+        Out.prln("...GATE Controller complete");
         // for each document, get an XML document with the
         // person and location names added
         Iterator iter = corpus.iterator();
@@ -115,15 +121,15 @@ public class Compare {
     public static String opennlpuima(String path) throws Exception {
         JCas document = createJCasFromPath(
                 "http://svn.apache.org/repos/asf/opennlp/tags/opennlp-1.6.0-rc2/opennlp-uima/descriptors/TypeSystem.xml");
-        document.setDocumentText("The quick brown fox jumps over the lazy dog.\n" +
-                "                Later, he jumped over the moon.");
+        String txt = FileUtils.readFileToString(new File(path));
+        document.setDocumentText(txt);
         document.setDocumentLanguage("en");
-
         Type tokenType = document.getTypeSystem().getType("opennlp.uima.Token");
         Type sentenceType = document.getTypeSystem().getType("opennlp.uima.Sentence");
+        Type nameType = document.getTypeSystem().getType("opennlp.uima.Person");
         Feature posFeature = tokenType.getFeatureByBaseName("pos");
 
-// Configure sentence detector
+        // Configure sentence detector
         AnalysisEngineDescription sentenceDetector = createEngineDescription(
                 SentenceDetector.class,
                 UimaUtil.SENTENCE_TYPE_PARAMETER, sentenceType.getName());
@@ -132,7 +138,7 @@ public class Compare {
                 SentenceModelResourceImpl.class,
                 "http://opennlp.sourceforge.net/models-1.5/en-sent.bin");
 
-// Configure tokenizer
+        // Configure tokenizer
         AnalysisEngineDescription tokenizer = createEngineDescription(
                 Tokenizer.class,
                 UimaUtil.TOKEN_TYPE_PARAMETER, tokenType.getName(),
@@ -142,7 +148,7 @@ public class Compare {
                 TokenizerModelResourceImpl.class,
                 "http://opennlp.sourceforge.net/models-1.5/en-token.bin");
 
-// Configure part-of-speech tagger
+        // Configure part-of-speech tagger
         AnalysisEngineDescription posTagger = createEngineDescription(
                 POSTagger.class,
                 UimaUtil.TOKEN_TYPE_PARAMETER, tokenType.getName(),
@@ -153,19 +159,34 @@ public class Compare {
                 POSModelResourceImpl.class,
                 "http://opennlp.sourceforge.net/models-1.5/en-pos-perceptron.bin");
 
-
-//        AnalysisEngineDescription ner = createEngineDescription(
+//        AnalysisEngineDescription personNer = AnalysisEngineFactory.createEngineDescription(
 //                NameFinder.class,
-//                UimaUtil.TOKEN_TYPE_PARAMETER, tokenType.getName(),
-//                UimaUtil.SENTENCE_TYPE_PARAMETER, sentenceType.getName());
-//        createDependencyAndBind(tokenizer,
 //                UimaUtil.MODEL_PARAMETER,
-//                TokenizerModelResourceImpl.class,
-//                "http://opennlp.sourceforge.net/models-1.5/en-ner-person.bin");
+//                ExternalResourceFactory.createExternalResourceDescription(
+//                        TokenNameFinderModelResourceImpl.class,
+//                        "http://opennlp.sourceforge.net/models-1.5/en-ner-person.bin"),
+//                UimaUtil.SENTENCE_TYPE_PARAMETER,
+//                sentenceType.getName(),
+//                UimaUtil.TOKEN_TYPE_PARAMETER,
+//                tokenType.getName(),
+//                UimaUtil.POS_FEATURE_PARAMETER,
+//                posFeature.getShortName(),
+//                "opennlp.uima.NameType",nameType.getName());
+
+        AnalysisEngineDescription personNer = createEngineDescription(
+                NameFinder.class,
+                UimaUtil.TOKEN_TYPE_PARAMETER, tokenType.getName(),
+                UimaUtil.SENTENCE_TYPE_PARAMETER, sentenceType.getName(),
+                UimaUtil.POS_FEATURE_PARAMETER, posFeature.getShortName(),
+                "opennlp.uima.NameType",nameType.getName());
+        createDependencyAndBind(tokenizer,
+                UimaUtil.MODEL_PARAMETER,
+                TokenizerModelResourceImpl.class,
+                "http://opennlp.sourceforge.net/models-1.5/en-ner-person.bin");
 
 //        AnalysisEngineDescription writer = createEngineDescription(CasWriter.class);
 //        SimplePipeline.runPipeline(document, sentenceDetector, tokenizer, posTagger, writer);
-        SimplePipeline.runPipeline(document, sentenceDetector, tokenizer, posTagger);
+        SimplePipeline.runPipeline(document, sentenceDetector, tokenizer, posTagger, personNer);
         return new CasToInlineXml().generateXML(document.getCas());
     }
 
@@ -173,8 +194,9 @@ public class Compare {
     public static void main(String []args) throws Exception{
         URL resourceURL = Compare.class.getResource("/test.txt");
         File file = FileUtils.toFile(resourceURL);
-
-        String gateannie = gate(file.getAbsolutePath());
+        gateInit();
+        CorpusController ctrl = gateLoadAnnie();
+        String gateannie = gateExecute(ctrl, file.getAbsolutePath());
         File savefile = new File(file.getPath().replace(".txt", "_gateannie.txt"));
         System.out.println(savefile);
         FileUtils.writeStringToFile(savefile, gateannie);
