@@ -27,7 +27,9 @@ import org.json.XML;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
@@ -112,10 +114,14 @@ public class Compare {
         return null;
     }
 
-    public static String stanfordnlp(String path)throws Exception {
+    public static StanfordCoreNLP stanfordnlpInit()throws Exception {
         Properties props = new Properties();
         props.put("annotators", "tokenize, ssplit, pos, lemma, ner");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+        return pipeline;
+    }
+
+    public static String stanfordnlp(StanfordCoreNLP pipeline, String path)throws Exception {
         String txt = FileUtils.readFileToString(new File(path));
         edu.stanford.nlp.pipeline.Annotation annotation = new edu.stanford.nlp.pipeline.Annotation(txt);
         pipeline.annotate(annotation);
@@ -126,17 +132,22 @@ public class Compare {
         return xmlAnn;
     }
 
-    public static String opennlpuima(String path) throws Exception {
+
+    public static JCas opennlpuimaInitDoc() throws  Exception {
+//        JCas document = createJCasFromPath(
+//                "http://svn.apache.org/repos/asf/opennlp/tags/opennlp-1.6.0-rc2/opennlp-uima/descriptors/TypeSystem.xml");
         JCas document = createJCasFromPath(
-                "http://svn.apache.org/repos/asf/opennlp/tags/opennlp-1.6.0-rc2/opennlp-uima/descriptors/TypeSystem.xml");
-        String txt = FileUtils.readFileToString(new File(path));
-        document.setDocumentText(txt);
+                Compare.class.getResource("/uima/opennlp/descriptors/TypeSystem.xml").getPath());
         document.setDocumentLanguage("en");
+        return document;
+    }
+
+    public static AnalysisEngineDescription[] opennlpuimaInit() throws Exception{
+        JCas document = opennlpuimaInitDoc();
         Type tokenType = document.getTypeSystem().getType("opennlp.uima.Token");
         Type sentenceType = document.getTypeSystem().getType("opennlp.uima.Sentence");
         Type nameType = document.getTypeSystem().getType("opennlp.uima.Person");
         Feature posFeature = tokenType.getFeatureByBaseName("pos");
-
         // Configure sentence detector
         AnalysisEngineDescription sentenceDetector = createEngineDescription(
                 SentenceDetector.class,
@@ -144,8 +155,8 @@ public class Compare {
         createDependencyAndBind(sentenceDetector,
                 UimaUtil.MODEL_PARAMETER,
                 SentenceModelResourceImpl.class,
-                "http://opennlp.sourceforge.net/models-1.5/en-sent.bin");
-
+                Compare.class.getResource("/en-sent.bin").toString());
+//                "http://opennlp.sourceforge.net/models-1.5/en-sent.bin");
         // Configure tokenizer
         AnalysisEngineDescription tokenizer = createEngineDescription(
                 Tokenizer.class,
@@ -154,7 +165,8 @@ public class Compare {
         createDependencyAndBind(tokenizer,
                 UimaUtil.MODEL_PARAMETER,
                 TokenizerModelResourceImpl.class,
-                "http://opennlp.sourceforge.net/models-1.5/en-token.bin");
+                Compare.class.getResource("/en-token.bin").toString());
+//                "http://opennlp.sourceforge.net/models-1.5/en-token.bin");
 
         // Configure part-of-speech tagger
         AnalysisEngineDescription posTagger = createEngineDescription(
@@ -165,7 +177,8 @@ public class Compare {
         createDependencyAndBind(posTagger,
                 UimaUtil.MODEL_PARAMETER,
                 POSModelResourceImpl.class,
-                "http://opennlp.sourceforge.net/models-1.5/en-pos-perceptron.bin");
+                Compare.class.getResource("/en-pos-perceptron.bin").toString());
+//                "http://opennlp.sourceforge.net/models-1.5/en-pos-perceptron.bin");
         AnalysisEngineDescription personNer = createEngineDescription(
                 NameFinder.class,
                 UimaUtil.TOKEN_TYPE_PARAMETER, tokenType.getName(),
@@ -175,11 +188,19 @@ public class Compare {
         createDependencyAndBind(personNer,
                 UimaUtil.MODEL_PARAMETER,
                 TokenNameFinderModelResourceImpl.class,
-                "http://opennlp.sourceforge.net/models-1.5/en-ner-person.bin");
+                Compare.class.getResource("/en-ner-person.bin").toString());
+//                "http://opennlp.sourceforge.net/models-1.5/en-ner-person.bin");
 
 //        AnalysisEngineDescription writer = createEngineDescription(CasWriter.class);
+        return new AnalysisEngineDescription[]{sentenceDetector, tokenizer, posTagger, personNer};
+    }
+
+    public static String opennlpuima(AnalysisEngineDescription[] engines, String path) throws Exception {
+        String txt = FileUtils.readFileToString(new File(path));
+        JCas document = opennlpuimaInitDoc();
+        document.setDocumentText(txt);
 //        SimplePipeline.runPipeline(document, sentenceDetector, tokenizer, posTagger, writer);
-        SimplePipeline.runPipeline(document, sentenceDetector, tokenizer, posTagger, personNer);
+        SimplePipeline.runPipeline(document, engines);
         return new CasToInlineXml().generateXML(document.getCas());
     }
 
@@ -198,14 +219,15 @@ public class Compare {
         System.out.println(savefile);
         FileUtils.writeStringToFile(savefile, gateannie);
 
-
-        String stanfordnlp = stanfordnlp(file.getAbsolutePath());
+        StanfordCoreNLP pipeline = stanfordnlpInit();
+        String stanfordnlp = stanfordnlp(pipeline, file.getAbsolutePath());
         savefile = new File(file.getPath().replace(".txt", "_stanford.txt"));
         System.out.println(savefile);
         FileUtils.writeStringToFile(savefile, stanfordnlp);
 
-
-        String opennlpuima = opennlpuima(file.getAbsolutePath());
+        JCas doc = opennlpuimaInitDoc();
+        AnalysisEngineDescription[]  engines =  opennlpuimaInit();
+        String opennlpuima = opennlpuima(engines,file.getAbsolutePath());
         savefile = new File(file.getPath().replace(".txt", "_``````````````````                                          `````````````````````````````````````````````````````````````````````````"));
         System.out.println(savefile);
         FileUtils.writeStringToFile(savefile, opennlpuima);

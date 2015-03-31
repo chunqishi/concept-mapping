@@ -3,6 +3,7 @@ package uima;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpNameFinder;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import opennlp.uima.sentdetect.SentenceDetector;
 import opennlp.uima.sentdetect.SentenceModelResourceImpl;
 import opennlp.uima.tokenize.Tokenizer;
@@ -163,10 +164,11 @@ public class AnnotatorPipeline {
                 TextReader.PARAM_LANGUAGE, "en",
                 TextReader.PARAM_PATTERNS, new String[] { "[+]*.txt" });
         AnalysisEngineDescription seg = createEngineDescription(StanfordSegmenter.class);
+        AnalysisEngineDescription tagger = createEngineDescription(StanfordPosTagger.class);
         AnalysisEngineDescription ner = createEngineDescription(StanfordNamedEntityRecognizer.class);
 //        AnalysisEngineDescription parser = createEngineDescription(StanfordParser.class);
         AnalysisEngineDescription writer = createEngineDescription(NPNEWriter.class);
-        SimplePipeline.runPipeline(reader, seg, ner, writer);
+        SimplePipeline.runPipeline(reader, seg, tagger, ner, writer);
     }
 
 
@@ -185,8 +187,8 @@ public class AnnotatorPipeline {
 
     public static void main(String[] args) throws Exception {
 //        execute();
-//        stanford();
-        opennlp();
+        stanford();
+//        opennlp();
 //        AnalysisEngineDescription sentenceDetector =
 //                    createEngineDescription(SentenceDetector.class,
 //                            UimaUtil.MODEL_PARAMETER, createExternalResourceDescription(
