@@ -5,6 +5,7 @@ import edu.stanford.nlp.pipeline.XMLOutputter;
 import gate.*;
 import gate.util.Out;
 import gate.util.persistence.PersistenceManager;
+import nu.xom.Serializer;
 import opennlp.uima.namefind.NameFinder;
 import opennlp.uima.namefind.TokenNameFinderModelResourceImpl;
 import opennlp.uima.postag.POSModelResourceImpl;
@@ -15,12 +16,14 @@ import opennlp.uima.tokenize.Tokenizer;
 import opennlp.uima.tokenize.TokenizerModelResourceImpl;
 import opennlp.uima.util.UimaUtil;
 import org.apache.commons.io.FileUtils;
+import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.cas.Type;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.CasToInlineXml;
+import org.apache.uima.util.XmlCasSerializer;
 import org.json.JSONObject;
 import org.json.XML;
 
@@ -32,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngine;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 import static org.apache.uima.fit.factory.ExternalResourceFactory.createDependencyAndBind;
 import static org.apache.uima.fit.factory.JCasFactory.createJCasFromPath;
@@ -90,6 +94,7 @@ public class Compare {
             params.put("sourceUrl", u);
             params.put("preserveOriginalContent", new Boolean(true));
             params.put("collectRepositioningInfo", new Boolean(true));
+            params.put("encoding", "UTF-8");
             Out.prln("Creating doc for " + u);
             Document doc = (Document)
                     Factory.createResource("gate.corpora.DocumentImpl", params);
@@ -125,10 +130,22 @@ public class Compare {
         String txt = FileUtils.readFileToString(new File(path));
         edu.stanford.nlp.pipeline.Annotation annotation = new edu.stanford.nlp.pipeline.Annotation(txt);
         pipeline.annotate(annotation);
+        // below is a tweaked version of XMLOutputter.writeXml()
+//        nu.xom.Document xmldoc = XMLOutputter.annotationToDoc(annotation, pipeline);
+//        ByteArrayOutputStream sw = new ByteArrayOutputStream();
+//        Serializer ser = new Serializer(sw);
+//        ser.setIndent(0);
+//        ser.setLineSeparator("\n"); // gonna kill this in a moment
+//        ser.write(xmldoc);
+//        ser.flush();
+//        String xmlstr = sw.toString();
+//        xmlstr = xmlstr.replace("\n", "");
+//        System.out.println(xmlstr);
+
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        XMLOutputter.xmlPrint(annotation, output);
+        XMLOutputter.xmlPrint(annotation, output, pipeline);
         String xmlAnn = new String(output.toByteArray());
-        System.out.println(xmlAnn);
+        // System.out.println(xmlAnn);
         return xmlAnn;
     }
 
@@ -142,7 +159,7 @@ public class Compare {
         return document;
     }
 
-    public static AnalysisEngineDescription[] opennlpuimaInit() throws Exception{
+    public static AnalysisEngine opennlpuimaInit() throws Exception{
         JCas document = opennlpuimaInitDoc();
         Type tokenType = document.getTypeSystem().getType("opennlp.uima.Token");
         Type sentenceType = document.getTypeSystem().getType("opennlp.uima.Sentence");
@@ -190,18 +207,25 @@ public class Compare {
                 TokenNameFinderModelResourceImpl.class,
                 Compare.class.getResource("/en-ner-person.bin").toString());
 //                "http://opennlp.sourceforge.net/models-1.5/en-ner-person.bin");
-
 //        AnalysisEngineDescription writer = createEngineDescription(CasWriter.class);
-        return new AnalysisEngineDescription[]{sentenceDetector, tokenizer, posTagger, personNer};
+        AnalysisEngineDescription aaeDesc = createEngineDescription(
+                new AnalysisEngineDescription[]{sentenceDetector, tokenizer, posTagger, personNer});
+        AnalysisEngine aae = createEngine(aaeDesc);
+        return aae;
     }
 
-    public static String opennlpuima(AnalysisEngineDescription[] engines, String path) throws Exception {
+    public static String opennlpuima(AnalysisEngine aae, String path) throws Exception {
         String txt = FileUtils.readFileToString(new File(path));
         JCas document = opennlpuimaInitDoc();
+        document.setDocumentLanguage("en");
         document.setDocumentText(txt);
-//        SimplePipeline.runPipeline(document, sentenceDetector, tokenizer, posTagger, writer);
-        SimplePipeline.runPipeline(document, engines);
-        return new CasToInlineXml().generateXML(document.getCas());
+        aae.process(document);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        XmlCasSerializer.serialize(document.getCas(), output);
+        String xmlAnn = new String(output.toByteArray());
+//        xmlAnn = new CasToInlineXml().generateXML(document.getCas());
+        document.release();
+        return xmlAnn;
     }
 
 
@@ -225,10 +249,9 @@ public class Compare {
         System.out.println(savefile);
         FileUtils.writeStringToFile(savefile, stanfordnlp);
 
-        JCas doc = opennlpuimaInitDoc();
-        AnalysisEngineDescription[]  engines =  opennlpuimaInit();
-        String opennlpuima = opennlpuima(engines,file.getAbsolutePath());
-        savefile = new File(file.getPath().replace(".txt", "_``````````````````                                          `````````````````````````````````````````````````````````````````````````"));
+        AnalysisEngine aae =  opennlpuimaInit();
+        String opennlpuima = opennlpuima(aae,file.getAbsolutePath());
+        savefile = new File(file.getPath().replace(".txt", "_uimaopennlp.txt"));
         System.out.println(savefile);
         FileUtils.writeStringToFile(savefile, opennlpuima);
 

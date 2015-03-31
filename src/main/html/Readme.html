@@ -1,0 +1,523 @@
+<!DOCTYPE HTML>
+<html>
+    <meta charset="utf-8" />
+    <head>
+<!--TODO: title -->    
+    <title>SVM Ontology Mapping</title>    
+	<!-- https://google-code-prettify.googlecode.com/svn/trunk/README.html -->
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js" >  </script>     
+    <style>      
+        body, p, td, pre {
+            font-size: 14pt; }
+        
+        body {  
+            background-color:lightyellow; 
+            counter-reset: section subsection figure;}
+        
+        h1 {
+            text-align:center }
+        
+        h2 {
+            counter-increment: section; }    
+
+        h3 {
+            counter-increment: subsection; }
+        
+        h4 {
+            counter-increment: figure; }
+        
+        h2:before {
+            content:counter(section) ". "; }
+        
+        h3:before {
+            content:counter(section) "." counter(subsection) " "; }
+        
+        h4:before{
+            content:"Fig. " counter(section) "." counter(figure) " - ";}
+        
+        .reset {
+            counter-reset:subsection figure;}
+        
+        .nav-bar{
+            list-style-type:none;
+            margin:0;
+            padding:0; }
+        
+        img {
+            margin-left: 10pt;
+            border: thin solid gray; }
+        
+        .sample { 
+            background-color: black;
+            font-size: 12pt;
+            color:white;
+            padding: 4pt;
+            margin-left: 10pt;
+            margin-right: 30pt; 
+            display: block;
+            white-space: pre-line;}
+        
+        .code { 
+            padding: 4pt;
+            font-size: 12pt;
+            background-color: whitesmoke;
+            border: thin dotted gray;
+            margin-left: 10pt;
+            margin-right: 30pt; 
+            display: block; 
+            white-space: pre-line;}
+        
+        .author {
+            font-size: 16pt; 
+            text-align:center;}
+
+
+        /*  grid tables  */
+        table.g {
+            margin: 8px;
+            border-width: 1px;
+            border-color: gray;
+            border-collapse: collapse; }
+
+        table.g th {
+            border-width: 1px;
+            padding: 8px 8px 8px 8px;
+            border-style: solid;
+            border-color: gray;
+            background-color: lightyellow; }
+
+        table.g td {
+            text-align:center;
+            border-width: 1px;
+            padding: 8px 8px 8px 8px;
+            border-style:solid;
+            border-color: gray;
+            background-color: #ffffff; }
+
+        /*  vertical tables  */
+        table.v {
+            margin: 8px;
+            border-collapse: collapse; }
+
+        table.v thead {
+            border-right: 10px solid;
+            border-left: 10px solid;
+            background: #fc9;
+            border-color: #fc9;}
+
+        table.v th {
+            padding: 4px 20px 4px 20px;
+            border: 1px #fff solid; }
+
+        table.v tbody{
+            text-align:left;
+            border-right: 10px solid;
+            border-left: 10px solid;
+            border-color: #adf;
+            background: #adf;
+            vertical-align: top; }
+
+        table.v td {
+            padding:  4px 20px 4px 20px;
+            border: 1px #fff solid; }
+
+        /*  horizontal tables  */
+        table.h {
+            margin: 8px;
+            border-collapse:collapse; }
+
+        table.h th {
+            padding:  4px 40px 4px 40px;
+            border:1px solid #98bf21;
+            background-color:#A7C942;
+            color:#fff; }
+
+        table.h td {
+            text-align:center;
+            border:1px solid #98bf21;
+            padding: 4px 40px 4px 40px; }
+
+        table.h tr.alt td {
+            color:#000;
+            background-color:#EAF2D3; }
+        /**
+            http://learnlayout.com/inline-block.html
+            http://www.w3schools.com/cssref/css_colornames.asp
+        **/
+
+        div.link {
+            display: inline-block;
+            width: 80px;
+            height: 100px;
+            position: relative;
+            text-align:center;
+            vertical-align: middle; }
+
+        div.black {
+            border-color: Black ;
+            border-width: 2px; }
+
+        div.black span.h {
+            background-color: Black       ;
+            color: Snow ;  }
+
+        div.white {
+            border-color: Lavender  ;
+            border-width: 2px; }
+
+        div.white span.h {
+            background-color: Snow       ;
+            color: Black ; }
+
+        div.red {  border-color: HotPink }
+
+        div.red span.h {
+            background-color: HotPink;
+            color: LightCyan;         }
+
+        div.yellow { border-color: GoldenRod  }
+
+        div.yellow span.h {
+            background-color: GoldenRod    ;
+            color: Azure ;         }
+
+        div.blue { border-color: DodgerBlue }
+
+        div.blue span.h {
+            background-color: DodgerBlue     ;
+            color: Snow ;  }
+
+        div.green { border-color: ForestGreen }
+
+        div.green span.h {
+            background-color: MediumSeaGreen    ;
+            color: Ivory   ; }
+
+        div.box {
+            display: inline-block;
+            width: 200px;
+            height: 100px;
+            margin: 8px;
+                border-style:solid;
+            border-width: 1.5px;
+            position: relative;
+            text-align:center;
+            vertical-align: middle;  }
+
+        div.box span.h {
+            top: 0;
+            left: 0;
+            right: 0;
+            text-align:left;
+            padding: 1px 2px 2px 1px;
+            position: absolute;
+            font-weight:bold;
+            line-height: 1em;  }
+
+        </style></head>
+<body>
+    <a name="_top_" />
+    <nav class="nav-bar">
+        <a href="#create-project">create project</a>
+        | 
+        <a href="#">wrap web service</a>
+        |
+        <a href="#">deploy</a></nav>
+
+
+
+
+<!--TODO: title -->    
+    <h1>SVM Ontology Mapping (OMSVM)</h1>
+    <p class="author">
+ Version <var>0.01</var>, <ruby>史春奇<rt> Chunqi Shi</rt></ruby>,  OCT. 2014</p>  
+    
+    
+    
+<a name="gate-docs" />
+<h2>Gate Documents <a href="#_top_" style="text-decoration: none;">^</a></h2>
+I have collected 100 GATE documents. 
+<ol>
+<li>
+I tried manually generating GATE documents, and it is really time costing. 
+<li>
+I asked Keith to help me about this.  
+Keith Suderman: "I ran 100 files from MASC through the GATE tokenizer, sentence splitter and POS tagger."
+</ol>
+<a name="gate-docs" />
+<h2>UIMA Documents<a href="#_top_" style="text-decoration: none;">^</a></h2>
+<h3> XSLT for UIMA Documents</h3>
+I need a command line <a href="http://en.wikipedia.org/wiki/XSLT" target="_blank" >XSLT tool</a>.
+Apache Xalan seems proper for this task.
+<ol> 
+<li> <a href="http://apache.mirrors.pair.com/xalan/xalan-j/" target="_blank">Xalan-j</a> allows command-line Java running.  
+<li> Command line：
+<samp class="sample">
+ java -jar xalan.jar org.apache.xalan.xslt.Process -IN ../gate_docs/MASC3-0068.xml  -XSL ../gate2uima.xsl -OUT ../UIMA_MASC3-0068.xml
+</samp>
+<li> <a href="http://www.cyberciti.biz/faq/bash-loop-over-file/" target="_blank" >Batch</a> process directory ：
+<pre><code class="code bsh prettyprint">## bash 
+for f in `ls ../gate_docs/`
+do
+ echo "XLST $f"
+ java -jar xalan.jar org.apache.xalan.xslt.Process -IN ../gate_docs/$f  -XSL ../gate2uima.xsl -OUT ../uima_docs/UIMA_$f
+done
+</code></pre>
+</ol>
+
+<h3>XML to JSON Tree?</h3>
+<a href="https://pypi.python.org/pypi/xmlutils" target="_blank">xmlutils </a> is tested.
+<ol> 
+<li>  Command line：
+<samp class="sample">
+xml2json --input "samples/fruits.xml" --output "samples/fruits.sql"
+</samp>
+<li> xml2json gets empty file.
+</ol>
+
+<a href="https://github.com/hay/xml2json" target="_blank">xml2json </a> is tested.
+
+<ol> 
+<li>Command line:
+<pre><samp class="sample">lapps@Lapdog ~/Skydrive/concept mapping/data
+$ python xml2json/xml2json.py -o MASC3-0068.json gate_docs/MASC3-0068.xml
+</samp></pre>
+
+<li> <a href="http://www.cyberciti.biz/faq/bash-loop-over-file/" target="_blank" >Batch</a> process directory ：
+<pre><code class="code bsh prettyprint">## bash 
+for f in `ls gate_docs/`
+do
+ echo "xml2json gate_docs/$f"
+ python xml2json/xml2json.py -o gate_json_docs/$f.json gate_docs/$f
+done
+for f in `ls uima_docs/`
+do
+ echo "xml2json uima_docs/$f"
+ python xml2json/xml2json.py -o uima_json_docs/$f.json uima_docs/$f
+done
+</code></pre>
+
+<li>Other encodings in the xml should be replaced.
+    <pre><code class="code bsh prettyprint">## bash
+    sed -i 's/GBK/UTF-8/' xmls/*gate*.xml
+    </code></pre>
+
+<li> Compare (equal) 2 json in python:
+<pre><code class="code python prettyprint">## python
+json1 = inputstream1.read()
+json2 = inputstream2.read()
+python1 = json.loads(json1)
+python2 = json.loads(json2)
+print python1 == python2
+</code></pre>
+<li> Compare (diff) 2 json in python:
+
+</ol>
+
+<h3>JSON Tree to Class Category</h3>
+We parse out the (Leaf-Node-Value, Leaf-Node-Path) as the (Data, Category)
+
+<ol>
+<li> Process each Json into training data file, with one case each line. 
+<pre><code class="code"> # Json tree being iterated into list of tuple(Leaf-Node-Path, Leaf-Node-Value). 
+data = json.loads(jsonText)
+treelist = tree2dict(data,[] , "")
+</code></pre>
+</li>
+<pre><code class="code"> 
+## bash 
+for f in `ls gate_json_docs/`
+do
+ echo "json2type gate_json_docs/$f"
+ python svm/json2type.py gate_json_docs/$f cls_gate_json/$f.cls
+done
+for f in `ls uima_json_docs/`
+do
+ echo "json2type uima_json_docs/$f"
+ python svm/json2type.py uima_json_docs/$f cls_uima_json/$f.cls
+done
+</code></pre>
+<li> SVM cannot accept category data, we need to represent category data as discrete number.
+<pre><code class="code"> # Python code
+def str2long(s):
+    # hash_object = hashlib.md5(s.encode('ascii', 'ignore'))
+    # l = long(hash_object.hexdigest(), 16) % (10 ** 8)
+    l = abs(hash(s)) % (10 ** 8)
+    print l
+    return l
+</code></pre>
+</li>
+</ol>
+
+<h3>Display Ontology Mapping</h3>
+
+
+<ol>
+<li> Gephi is selected for display mapping between classes mappings.
+It's data format is <a href="http://www.hpl.hp.com/research/idl/projects/graphs/guess/manual.htm" target="_blank"> GDF</a>.  
+</li>
+<li> Format: 
+<pre> <code class="code">
+nodedef> name, label, category, style, color 
+
+
+edgedef> name1, name2, color, weight, label, directed
+</code>
+</pre>
+</li>
+<li> Running the directory:
+<pre> <code class="code"># small directory
+python svm/omsvm.py small_gate_json_clses/ small_uima_json_clses/</code>
+</pre>
+</li>
+</ol>
+
+<h3>Classification Training</h3>
+We use <a href="http://scikit-learn.org/stable/" target="_blank"> sklearn<a>, 
+a python machine learning package. 
+Two classifier SVM and <a href="http://scikit-learn.org/stable/modules/ensemble.html#forests-of-randomized-trees" target="_blank"> Random Forest </a>
+
+
+<!--
+<samp class="sample">## 
+Java Class
+</samp>
+    
+<p/>    
+    
+<code class="code prettyprint">//
+String x = "good."
+String y = "morning.".
+</code>
+    
+    
+<figure>
+    <img src="img_pulpit.jpg" alt="The Pulpit Rock" width="304" height="228">
+    <figcaption><h4> A view of the pulpit rock in Norway.</h4></figcaption></figure>
+    <h3/>
+    <h3/>
+    <h4/>
+    <h2></h2>
+    <h3 class="reset"/>
+    <h3/>
+    <h4 class="reset" />
+    <h4/>
+
+
+<p>
+<div class="red box"><span class="h">box1</span><p>I'm an inline block!</p></div>
+
+<div class="yellow box"><span class="h">box2</span><p>I'm an inline block!</p></div>
+
+<div class="blue box"><span class="h">box2</span><p>I'm an inline block!</p></div>
+
+<div class="green box"><span class="h">box2</span><p>I'm an inline block!</p></div>
+</p>
+
+<p>
+<div class="white box"> <span class="h">Hello</span> <p>        hello world  </p> <span>world</span>
+</div>
+<div class="black box"><span class="h">Step</span><p>Hello World</p></div>
+<div class="box"> <span class="h">Hello</span> <p>hello world</p> <span>Hello</span>
+</div>
+<div class="link"><span class="h">Step</span><p>====></p></div>
+</p>
+
+
+
+<table class="g">
+<thead>
+<th>name</th>
+<th>age</th>
+<th>sex</th>
+</thead>
+<tbody>
+<tr>
+<td> joan </td>
+<td> 24 </td>
+<td> f </td>
+</tr>
+<tr>
+<td> archie </td>
+<td> 29 </td>
+<td> m </td>
+</tr>
+<tr>
+<td> bella </td>
+<td> 45 </td>
+<td> f </td>
+</tr>
+</tbody>
+</table>
+
+
+<table class="h">
+<thead>
+<th>name</th>
+<th>age</th>
+<th>sex</th>
+</thead>
+<tbody>
+<tr>
+<td> joan </td>
+<td> 24 </td>
+<td> f </td>
+</tr>
+<tr>
+<td> archie </td>
+<td> 29 </td>
+<td> m </td>
+</tr>
+<tr>
+<td> bella </td>
+<td> 45 </td>
+<td> f </td>
+</tr>
+</tbody>
+</table>
+
+
+<table class="v">
+<thead>
+<th>name</th>
+<th>age</th>
+<th>sex</th>
+</thead>
+<tbody>
+<tr>
+<td> joan </td>
+<td> 24 </td>
+<td> f </td>
+</tr>
+<tr>
+<td> archie </td>
+<td> 29 </td>
+<td> m </td>
+</tr>
+<tr>
+<td> bella </td>
+<td> 45 </td>
+<td> f </td>
+</tr>
+</tbody>
+</table>
+-->
+
+
+
+
+
+
+
+
+
+
+<footer><hr/> 
+<p>
+    Progress: 
+    <progress value="1" max="100"></progress></p>
+<p>
+    Contacts: 
+    <nonsense>shi</nonsense>cq@<nonsense>cs.</nonsense>brandeis.<nonsense></nonsense>edu</p></footer>
+    
+    </body></html>
