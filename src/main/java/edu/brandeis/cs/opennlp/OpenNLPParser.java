@@ -1,4 +1,4 @@
-package org.lapps;
+package edu.brandeis.cs.opennlp;
 
 import com.cedarsoftware.util.io.JsonWriter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -19,7 +19,7 @@ import java.net.URL;
  * $ export MAVEN_OPTS="-Xmx3072m -XX:MaxPermSize=128m"
  * $ mvn compile exec:java  -Dexec.mainClass="org.lapps.TestOpenNLPParser"
  */
-public class TestOpenNLPParser {
+public class OpenNLPParser {
     public static Parser createParserModel() {
         try {
             URL parseModelUrl = ParserModel.class.getResource("/en-parser-chunking.bin");

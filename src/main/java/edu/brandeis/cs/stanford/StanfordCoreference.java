@@ -1,4 +1,4 @@
-package org.lapps;
+package edu.brandeis.cs.stanford;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +23,7 @@ import edu.stanford.nlp.util.CoreMap;
  * $ mvn compile exec:java  -Dexec.mainClass="org.lapps.TestStanfordCoreference"
  *
  */
-public class TestStanfordCoreference {
+public class StanfordCoreference {
         public static void main(String[] args) throws IOException {
             Properties props = new Properties();
             props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");

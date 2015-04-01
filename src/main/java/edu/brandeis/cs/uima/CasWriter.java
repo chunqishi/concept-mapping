@@ -1,14 +1,8 @@
-package uima;
+package edu.brandeis.cs.uima;
 
-import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
-import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.NP;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.CASException;
 import org.apache.uima.fit.component.JCasConsumer_ImplBase;
-import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.util.CasToInlineXml;
 import org.apache.uima.util.XmlCasSerializer;
 
 import java.io.ByteArrayOutputStream;

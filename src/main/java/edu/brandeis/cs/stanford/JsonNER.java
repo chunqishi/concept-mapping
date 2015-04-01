@@ -1,4 +1,4 @@
-package json;
+package edu.brandeis.cs.stanford;
 
 import com.cedarsoftware.util.io.JsonWriter;
 import edu.stanford.nlp.ling.CoreAnnotations;

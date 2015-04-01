@@ -1,4 +1,4 @@
-package gate;
+package edu.brandeis.cs.gate;
 
 /**
  * Created by lapps on 3/26/2015.
@@ -8,7 +8,6 @@ import java.io.*;
 import java.net.*;
 
 import gate.*;
-import gate.creole.*;
 import gate.util.*;
 import gate.util.persistence.PersistenceManager;
 import gate.corpora.RepositioningInfo;

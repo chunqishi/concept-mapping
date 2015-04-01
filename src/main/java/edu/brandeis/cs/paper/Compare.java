@@ -1,11 +1,10 @@
-package paper;
+package edu.brandeis.cs.paper;
 
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.pipeline.XMLOutputter;
 import gate.*;
 import gate.util.Out;
 import gate.util.persistence.PersistenceManager;
-import nu.xom.Serializer;
 import opennlp.uima.namefind.NameFinder;
 import opennlp.uima.namefind.TokenNameFinderModelResourceImpl;
 import opennlp.uima.postag.POSModelResourceImpl;
@@ -20,9 +19,7 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.cas.Type;
-import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.util.CasToInlineXml;
 import org.apache.uima.util.XmlCasSerializer;
 import org.json.JSONObject;
 import org.json.XML;
@@ -30,9 +27,7 @@ import org.json.XML;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngine;

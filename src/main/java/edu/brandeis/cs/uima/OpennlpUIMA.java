@@ -1,14 +1,12 @@
-package uima;
+package edu.brandeis.cs.uima;
 
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.cas.Type;
 import org.apache.uima.fit.pipeline.*;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.*;
-import static org.apache.uima.fit.factory.CollectionReaderFactory.*;
 import static org.apache.uima.fit.factory.ExternalResourceFactory.*;
 import static org.apache.uima.fit.factory.JCasFactory.*;
-import static org.apache.uima.fit.util.CasUtil.*;
 
 import opennlp.uima.postag.*;
 import opennlp.uima.tokenize.*;

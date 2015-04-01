@@ -1,4 +1,4 @@
-package paper;
+package edu.brandeis.cs.paper;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;

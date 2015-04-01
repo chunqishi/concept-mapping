@@ -1,4 +1,4 @@
-package org.lapps;
+package edu.brandeis.cs.opennlp;
 
 
 import com.cedarsoftware.util.io.JsonWriter;
@@ -33,7 +33,7 @@ import java.util.List;
  * $ export MAVEN_OPTS="-Xmx3072m -XX:MaxPermSize=128m"
  * $ mvn compile exec:java  -Dexec.mainClass="org.lapps.TestOpenNLPCoreference"
  */
-public class TestOpenNLPCoreference {
+public class OpenNLPCoreference {
 
 //    public static Parser _parser = null;
 //

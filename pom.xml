@@ -1,34 +1,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<!--parent> <groupId>org.apache.opennlp</groupId> <artifactId>opennlp</artifactId> 
-		<version>1.5.3</version> </parent -->
     <parent>
         <groupId>org.lappsgrid.maven</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>2.0.0</version>
     </parent>
-	<groupId>chunqi</groupId>
+	<groupId>edu.brandeis.cs</groupId>
 	<artifactId>concept-mapping</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Web Services wrapping opennlp</name>
+	<name>concept-mapping tester</name>
 	<description>
-	Publish API for the LAPPS exchange data structure (LEDS), the thing that will be serialized to from JSON-LD.
-	Provide converter for the OpenNLP one-per-line format to LEDS.
+        Web Services wrapping gate, stanford, uima to create xml annotation
 	</description>
 
 
     <properties>
-        <lapps.version>2.0.0-SNAPSHOT</lapps.version>
-        <lapps.core.version>2.0.0-SNAPSHOT</lapps.core.version>
-        <lapps.discriminator>2.0.0-SNAPSHOT</lapps.discriminator>
-        <lapps.util>1.0.0</lapps.util>
-        <vocabulary.version>0.9.4</vocabulary.version>
-        <serialization.version>0.13.0-SNAPSHOT</serialization.version>
-        <anc.common>3.4.0</anc.common>
+        <!--<lapps.version>2.0.0-SNAPSHOT</lapps.version>-->
+        <!--<lapps.core.version>2.0.0-SNAPSHOT</lapps.core.version>-->
+        <!--<lapps.discriminator>2.0.0-SNAPSHOT</lapps.discriminator>-->
+        <!--<lapps.util>1.0.0</lapps.util>-->
+        <!--<vocabulary.version>0.9.4</vocabulary.version>-->
+        <!--<serialization.version>0.13.0-SNAPSHOT</serialization.version>-->
+        <!--<anc.common>3.4.0</anc.common>-->
         <opennlp.version>1.5.3</opennlp.version>
-        <stanford.version>3.5.0</stanford.version>
+        <stanford.version>3.4.1</stanford.version>
     </properties>
 
 
@@ -122,19 +119,12 @@
 			<artifactId>opennlp-maxent</artifactId>
 			<version>3.0.3</version>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-            <scope>test</scope>
-		</dependency>
-
 		<!-- LappsGrid dependencies -->
-		<dependency>
-			<groupId>org.lappsgrid</groupId>
-			<artifactId>api</artifactId>
-			<version>${lapps.version}</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.lappsgrid</groupId>-->
+			<!--<artifactId>api</artifactId>-->
+			<!--<version>${lapps.version}</version>-->
+		<!--</dependency>-->
 
 
 		<dependency>
@@ -153,11 +143,6 @@
 			<version>2.1.7</version>
 		</dependency>
 		<dependency>
-			<groupId>org.anc</groupId>
-			<artifactId>common</artifactId>
-			<version>3.2.0</version>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.5</version>
@@ -167,18 +152,29 @@
 			<artifactId>lucene-wordnet</artifactId>
 			<version>3.3.0</version>
 		</dependency>
-
-
-        <!--- JSON Support -->
         <dependency>
             <groupId>org.lappsgrid</groupId>
-            <artifactId>JsonSerialization</artifactId>
-            <version>0.0.4</version>
+            <artifactId>service-grid-libs</artifactId>
+            <version>1.1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--- JSON Support -->
+        <!--<dependency>-->
+            <!--<groupId>org.lappsgrid</groupId>-->
+            <!--<artifactId>JsonSerialization</artifactId>-->
+            <!--<version>0.0.4</version>-->
+        <!--</dependency>-->
 	</dependencies>
 
 	<build>
-		<finalName>opennlp-web-service#${project.version}</finalName>
+		<finalName>concept-mapping#${project.version}</finalName>
 		<plugins>
             
             <plugin>
@@ -195,14 +191,14 @@
                 </configuration>
             </plugin>
             
-             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.2</version>
-                <configuration>
-                    <tagBase>http://eldrad.cs-i.brandeis.edu:6061/nexus/content/repositories/releases/</tagBase>
-                </configuration>
-            </plugin>
+             <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-release-plugin</artifactId>-->
+                <!--<version>2.4.2</version>-->
+                <!--<configuration>-->
+                    <!--<tagBase>http://eldrad.cs-i.brandeis.edu:6061/nexus/content/repositories/releases/</tagBase>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

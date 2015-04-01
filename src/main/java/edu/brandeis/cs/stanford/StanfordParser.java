@@ -1,4 +1,4 @@
-package org.lapps;
+package edu.brandeis.cs.stanford;
 
 import com.cedarsoftware.util.io.JsonWriter;
 import edu.stanford.nlp.ling.CoreAnnotations;
@@ -18,7 +18,7 @@ import java.util.*;
  * $ export MAVEN_OPTS="-Xmx3072m -XX:MaxPermSize=128m"
  * $ mvn compile exec:java  -Dexec.mainClass="org.lapps.TestStanfordParser"
  */
-public class TestStanfordParser {
+public class StanfordParser {
 
     public static void main(String [] args) throws IOException {
         // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution

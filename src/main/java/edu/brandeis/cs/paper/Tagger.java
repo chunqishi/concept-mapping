@@ -1,12 +1,10 @@
-package paper;
+package edu.brandeis.cs.paper;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.pipeline.XMLOutputter;
 import edu.stanford.nlp.util.CoreMap;
-import opennlp.tools.parser.ParserFactory;
-import opennlp.tools.parser.ParserModel;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import org.json.JSONObject;

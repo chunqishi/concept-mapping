@@ -1,4 +1,4 @@
-package uima;
+package edu.brandeis.cs.uima;
 
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpNameFinder;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
@@ -9,8 +9,6 @@ import opennlp.uima.sentdetect.SentenceModelResourceImpl;
 import opennlp.uima.tokenize.Tokenizer;
 import opennlp.uima.tokenize.TokenizerModelResourceImpl;
 import opennlp.uima.util.UimaUtil;
-import org.apache.commons.io.FileUtils;
-import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
@@ -25,48 +23,26 @@ import org.apache.uima.resource.SharedResourceObject;
 import org.apache.uima.util.CasToInlineXml;
 import org.apache.uima.util.InvalidXMLException;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-
 
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 import static org.apache.uima.fit.factory.CollectionReaderFactory.createReaderDescription;
 import static org.apache.uima.fit.factory.ExternalResourceFactory.createExternalResourceDescription;
 
-import java.io.IOException;
-
-import opennlp.uima.namefind.NameFinder;
-import opennlp.uima.namefind.TokenNameFinderModelResourceImpl;
-import opennlp.uima.sentdetect.SentenceDetector;
-import opennlp.uima.sentdetect.SentenceModelResourceImpl;
-import opennlp.uima.tokenize.Tokenizer;
-import opennlp.uima.tokenize.TokenizerModelResourceImpl;
-
-import org.apache.uima.UIMAException;
-import org.apache.uima.fit.pipeline.SimplePipeline;
-
-import java.io.IOException;
 import static org.apache.uima.fit.factory.CollectionReaderFactory.createReader;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
-import org.apache.uima.UIMAException;
-import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+
 import org.apache.uima.collection.CollectionReader;
-import org.apache.uima.fit.pipeline.SimplePipeline;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 
 import de.tudarmstadt.ukp.dkpro.core.io.text.TextReader;
-import de.tudarmstadt.ukp.dkpro.core.io.xmi.XmiWriter;
 //import fr.univnantes.atal.uima.playground.annotators.WordCountAnnotator;
 //import fr.univnantes.atal.uima.playground.resources.WordCounterImpl;
 
-import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.component.JCasConsumer_ImplBase;
 import org.apache.uima.fit.util.JCasUtil;
-import org.apache.uima.jcas.JCas;
 import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.NP;

@@ -1,4 +1,4 @@
-package paper;
+package edu.brandeis.cs.paper;
 
 //import org.apache.commons.io.FileUtils;
 
@@ -6,8 +6,6 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import gate.CorpusController;
 import org.apache.commons.io.FileUtils;
 import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.analysis_engine.AnalysisEngineDescription;
-import org.apache.uima.jcas.JCas;
 import org.json.JSONObject;
 import org.json.XML;
 

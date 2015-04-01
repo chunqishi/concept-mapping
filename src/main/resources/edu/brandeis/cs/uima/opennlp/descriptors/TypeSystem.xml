@@ -31,88 +31,88 @@
 	<vendor>Apache Software Foundation</vendor>
 	<types>
 		<typeDescription>
-			<name>opennlp.uima.Sentence</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Sentence</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 		</typeDescription>
 
 		<typeDescription>
-			<name>opennlp.uima.Token</name>
-			<supertypeName>uima.tcas.Annotation
-			</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Token</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation
+            </supertypeName>
 			<features>
 				<featureDescription>
 					<name>pos</name>
 					<description>Part of speech</description>
-					<rangeTypeName>uima.cas.String</rangeTypeName>
+					<rangeTypeName>edu.brandeis.cs.uima.cas.String</rangeTypeName>
 				</featureDescription>
 			</features>
 		</typeDescription>
 
 		<typeDescription>
-			<name>opennlp.uima.Chunk</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Chunk</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 			<features>
 				<featureDescription>
 					<name>chunkType</name>
 					<description></description>
-					<rangeTypeName>uima.cas.String</rangeTypeName>
+					<rangeTypeName>edu.brandeis.cs.uima.cas.String</rangeTypeName>
 				</featureDescription>
 			</features>
 		</typeDescription>
 		
 		<typeDescription>
-			<name>opennlp.uima.Person</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Person</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 		</typeDescription>
 
 		<typeDescription>
-			<name>opennlp.uima.Organization</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Organization</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 		</typeDescription>
 
 		<typeDescription>
-			<name>opennlp.uima.Location</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Location</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 		</typeDescription>
 
 		<typeDescription>
-			<name>opennlp.uima.Date</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Date</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 		</typeDescription>
 
 		<typeDescription>
-			<name>opennlp.uima.Time</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Time</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 		</typeDescription>
 		
 		<typeDescription>
-			<name>opennlp.uima.Money</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Money</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 		</typeDescription>
 		
 		<typeDescription>
-			<name>opennlp.uima.Percentage</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Percentage</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 		</typeDescription>
 		
 		<typeDescription>
-			<name>opennlp.uima.Parse</name>
-			<supertypeName>uima.tcas.Annotation</supertypeName>
+			<name>opennlp.edu.brandeis.cs.uima.Parse</name>
+			<supertypeName>edu.brandeis.cs.uima.tcas.Annotation</supertypeName>
 			<features>
 				<featureDescription>
 					<name>parseType</name>
 					<description>Type of the parse node</description>
-					<rangeTypeName>uima.cas.String</rangeTypeName>
+					<rangeTypeName>edu.brandeis.cs.uima.cas.String</rangeTypeName>
 				</featureDescription>
 				<featureDescription>
 					<name>children</name>
 					<description>Leaf nodes</description>
-					<rangeTypeName>uima.cas.FSArray</rangeTypeName>
+					<rangeTypeName>edu.brandeis.cs.uima.cas.FSArray</rangeTypeName>
 				</featureDescription>
 				<featureDescription>
 					<name>prob</name>
 					<description>Leaf nodes</description>
-					<rangeTypeName>uima.cas.Double</rangeTypeName>
+					<rangeTypeName>edu.brandeis.cs.uima.cas.Double</rangeTypeName>
 				</featureDescription>
 			</features>
 		</typeDescription>
