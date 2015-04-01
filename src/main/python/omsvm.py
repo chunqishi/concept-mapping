@@ -173,7 +173,7 @@ def directory_process(d, data=[], target=[], numlim=50):
 def rf_train(svmdata, svmtarget):
     from sklearn.ensemble import ExtraTreesClassifier
     begin_time = current_milli_time()
-    clf = ExtraTreesClassifier(n_estimators=10, max_depth=None, min_samples_split=1, random_state=0)
+    clf = ExtraTreesClassifier(n_estimators=100, max_depth=None, min_samples_split=1, random_state=0)
     logging.info("training RF Model: %s ..." % str(clf))
     logging.info("data length:%d" % len(svmdata))
     logging.info("target length:%d" % len(svmtarget))

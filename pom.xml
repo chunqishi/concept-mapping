@@ -28,7 +28,7 @@
         <serialization.version>0.13.0-SNAPSHOT</serialization.version>
         <anc.common>3.4.0</anc.common>
         <opennlp.version>1.5.3</opennlp.version>
-        <stanford.version>3.3.1</stanford.version>
+        <stanford.version>3.5.0</stanford.version>
     </properties>
 
 
