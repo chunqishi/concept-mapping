@@ -255,10 +255,11 @@ public abstract class PipelineAnnotation  implements IPipelineAnnotation{
     }
 
     public static class GateAnnie extends PipelineAnnotation{
-        CorpusController gateAnnie = null;
+        static CorpusController gateAnnie = null;
 
         public GateAnnie() throws Exception {
-            gateAnnie = gateLoadAnnie();
+            if(gateAnnie == null)
+                gateAnnie = gateLoadAnnie();
         }
 
         @Override
@@ -269,10 +270,10 @@ public abstract class PipelineAnnotation  implements IPipelineAnnotation{
     }
 
     public static class GateOpenNLP extends PipelineAnnotation{
-
-        CorpusController gateOpennlp = null;
+        static CorpusController gateOpennlp = null;
         public GateOpenNLP() throws Exception {
-            gateOpennlp = gateLoadOpenNLP();
+            if(gateOpennlp == null)
+                gateOpennlp = gateLoadOpenNLP();
         }
 
         @Override
@@ -282,10 +283,10 @@ public abstract class PipelineAnnotation  implements IPipelineAnnotation{
     }
 
     public static class UimaDkproOpenNLP extends PipelineAnnotation{
-
-        AnalysisEngine aee;
+        static AnalysisEngine aee;
         public UimaDkproOpenNLP() throws Exception {
-            aee = uimaDkproOpennlpInit();
+            if(aee == null)
+                aee = uimaDkproOpennlpInit();
         }
         @Override
         public String getXML(String doc) throws Exception {
@@ -295,10 +296,10 @@ public abstract class PipelineAnnotation  implements IPipelineAnnotation{
     }
 
     public static class UimaDkproStanford extends PipelineAnnotation{
-        AnalysisEngine aee;
-
+        static AnalysisEngine aee;
         public UimaDkproStanford() throws Exception {
-            aee = uimaDkproStanfordInit();
+            if(aee == null)
+                aee = uimaDkproStanfordInit();
         }
 
         @Override
@@ -308,10 +309,10 @@ public abstract class PipelineAnnotation  implements IPipelineAnnotation{
     }
 
     public static class UimaOpenNLP extends PipelineAnnotation{
-
-        AnalysisEngine aae;
+        static AnalysisEngine aae;
         public UimaOpenNLP() throws Exception {
-            aae = opennlpuimaInit();
+            if(aae == null)
+                aae = opennlpuimaInit();
         }
         @Override
         public String getXML(String doc) throws Exception {
@@ -321,12 +322,12 @@ public abstract class PipelineAnnotation  implements IPipelineAnnotation{
     }
 
     public static class StanfordCoreNLP extends PipelineAnnotation{
-
-        edu.stanford.nlp.pipeline.StanfordCoreNLP pipeline;
-
+        static edu.stanford.nlp.pipeline.StanfordCoreNLP pipeline;
         public StanfordCoreNLP() throws Exception {
-            pipeline = stanfordnlpInit();
+            if(pipeline == null)
+                pipeline = stanfordnlpInit();
         }
+
         @Override
         public String getXML(String doc) throws Exception {
             return stanfordnlp(pipeline,doc);
