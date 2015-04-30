@@ -161,7 +161,9 @@ public static void json2node(JsonProxy.JsonObject jsonObj, XMLStreamWriter xmlSt
     public static JsonProxy.JsonObject node2json(Node node, JsonProxy.JsonObject jsonObj) {
         if(node.getNodeType() == Node.ELEMENT_NODE
                 || node.getNodeType() == Node.DOCUMENT_NODE
-                || node.getNodeType() == Node.COMMENT_NODE) {
+                || node.getNodeType() == Node.COMMENT_NODE
+                || node.getNodeType() == Node.TEXT_NODE
+                || node.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE) {
             // node attributes
             NamedNodeMap attrs = node.getAttributes();
             if(attrs != null) {
@@ -187,6 +189,8 @@ public static void json2node(JsonProxy.JsonObject jsonObj, XMLStreamWriter xmlSt
                             jsonObj.put("#comment", comms);
                         }
                     }
+                } else if(list.item(i).getNodeType() == Node.PROCESSING_INSTRUCTION_NODE){
+                    commentNodes.add(list.item(i));
                 }
             }
             // remove all comment nodes
@@ -267,7 +271,7 @@ public static void json2node(JsonProxy.JsonObject jsonObj, XMLStreamWriter xmlSt
             }
         } else {
             System.out.println("Node: type=" + node.getNodeType() +" (" + node +")");
-            throw new RuntimeException("Unexpected Node Type.");
+            throw new RuntimeException("Unexpected Node Type:" + "Node: type=" + node.getNodeType() +" (" + node +")");
         }
         return jsonObj;
     }
