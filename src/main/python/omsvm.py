@@ -1,14 +1,12 @@
-import sys, os, traceback
-import json
+import sys
+import os
 import codecs
-import collections
 import re
-import hashlib
 from sklearn import svm
 import cPickle as pickle
 import time
-
 import logging
+
 logging.basicConfig(filename='log.txt',level=logging.DEBUG)
 current_milli_time = lambda: int(round(time.time()))
 current_time_tag = lambda: time.strftime("%Y%m%d_%H%M%S")

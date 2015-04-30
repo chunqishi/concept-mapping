@@ -2,7 +2,6 @@ package edu.brandeis.cs.opennlp;
 
 
 import com.cedarsoftware.util.io.JsonWriter;
-import edu.brandeis.cs.opennlp.TreebankNameFinder;
 import opennlp.tools.coref.DefaultLinker;
 import opennlp.tools.coref.DiscourseEntity;
 import opennlp.tools.coref.Linker;
@@ -19,8 +18,8 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;

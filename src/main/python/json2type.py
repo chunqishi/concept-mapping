@@ -1,4 +1,4 @@
-import sys, traceback
+import sys
 import json
 import codecs
 

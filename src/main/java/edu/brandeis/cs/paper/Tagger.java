@@ -1,5 +1,6 @@
 package edu.brandeis.cs.paper;
 
+import edu.brandeis.cs.json2json.Json2Json;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
@@ -7,10 +8,9 @@ import edu.stanford.nlp.pipeline.XMLOutputter;
 import edu.stanford.nlp.util.CoreMap;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
-import org.json.JSONObject;
-import org.json.XML;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
@@ -46,7 +46,7 @@ public class Tagger {
         XMLOutputter.xmlPrint(annotation, output);
         String xmlAnn = new String(output.toByteArray());
         System.out.println(xmlAnn);
-        JSONObject xml2json = XML.toJSONObject(xmlAnn);
+        String xml2json = Json2Json.xml2json(xmlAnn);
         System.out.println(xml2json);
 
 //        for (CoreMap sent : list) {

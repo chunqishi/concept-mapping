@@ -11,24 +11,24 @@
  */
 package gate.plugins.OpenNLP.src.gate.opennlp;
 
-import gate.Annotation;
-import gate.AnnotationSet;
-import gate.Factory;
-import gate.FeatureMap;
-import gate.Resource;
-import gate.Utils;
-import gate.creole.*;
+import gate.*;
+import gate.creole.AbstractLanguageAnalyser;
+import gate.creole.ExecutionException;
+import gate.creole.ExecutionInterruptedException;
+import gate.creole.ResourceInstantiationException;
 import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
 import gate.creole.metadata.RunTime;
 import gate.creole.metadata.Sharable;
 import gate.util.InvalidOffsetException;
-import java.io.*;
-import java.net.URL;
-import java.text.NumberFormat;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.NumberFormat;
 
 /**
  * Wrapper for the OpenNLP POS Tagger

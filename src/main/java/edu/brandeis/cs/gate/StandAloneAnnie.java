@@ -3,14 +3,21 @@ package edu.brandeis.cs.gate;
 /**
  * Created by lapps on 3/26/2015.
  */
-import java.util.*;
-import java.io.*;
-import java.net.*;
 
 import gate.*;
-import gate.util.*;
-import gate.util.persistence.PersistenceManager;
 import gate.corpora.RepositioningInfo;
+import gate.util.GateException;
+import gate.util.Out;
+import gate.util.persistence.PersistenceManager;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URL;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * This class illustrates how to use ANNIE as a sausage machine

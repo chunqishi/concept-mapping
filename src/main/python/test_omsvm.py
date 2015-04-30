@@ -1,5 +1,6 @@
-import unittest,codecs,os
-
+import unittest
+import codecs
+import os
 from omsvm import line_process, file_process, uniq_arrs
 
 class Test(unittest.TestCase):

@@ -12,20 +12,27 @@
 package gate.plugins.OpenNLP.src.gate.opennlp;
 
 import gate.*;
-import gate.creole.*;
+import gate.creole.AbstractLanguageAnalyser;
+import gate.creole.ExecutionException;
+import gate.creole.ExecutionInterruptedException;
+import gate.creole.ResourceInstantiationException;
 import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
 import gate.creole.metadata.RunTime;
 import gate.creole.metadata.Sharable;
 import gate.util.InvalidOffsetException;
-import java.io.*;
+import opennlp.tools.sentdetect.SentenceDetectorME;
+import opennlp.tools.sentdetect.SentenceModel;
+import opennlp.tools.util.Span;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.regex.*;
-import opennlp.tools.sentdetect.*;
-import opennlp.tools.util.Span;
-import org.apache.log4j.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**

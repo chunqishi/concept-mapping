@@ -1,18 +1,21 @@
 package edu.brandeis.cs.uima;
 
+import opennlp.uima.postag.POSModelResourceImpl;
+import opennlp.uima.postag.POSTagger;
+import opennlp.uima.sentdetect.SentenceDetector;
+import opennlp.uima.sentdetect.SentenceModelResourceImpl;
+import opennlp.uima.tokenize.Tokenizer;
+import opennlp.uima.tokenize.TokenizerModelResourceImpl;
+import opennlp.uima.util.UimaUtil;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.cas.Type;
-import org.apache.uima.fit.pipeline.*;
-import static org.apache.uima.fit.factory.AnalysisEngineFactory.*;
-import static org.apache.uima.fit.factory.ExternalResourceFactory.*;
-import static org.apache.uima.fit.factory.JCasFactory.*;
-
-import opennlp.uima.postag.*;
-import opennlp.uima.tokenize.*;
-import opennlp.uima.sentdetect.*;
-import opennlp.uima.util.*;
+import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.jcas.JCas;
+
+import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+import static org.apache.uima.fit.factory.ExternalResourceFactory.createDependencyAndBind;
+import static org.apache.uima.fit.factory.JCasFactory.createJCasFromPath;
 
 /**
  * Created by lapps on 3/27/2015.

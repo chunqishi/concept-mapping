@@ -1,17 +1,5 @@
 package edu.brandeis.cs.opennlp;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import opennlp.tools.coref.DiscourseEntity;
-import opennlp.tools.coref.mention.DefaultParse;
-import opennlp.tools.coref.mention.MentionContext;
-import opennlp.tools.parser.Parse;
-import opennlp.tools.parser.chunking.Parser;
-import opennlp.tools.util.Span;
-
 public class CorefParse {
 //
 //	private Map<Parse, Integer> parseMap;

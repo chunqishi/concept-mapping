@@ -2,12 +2,11 @@ package edu.brandeis.cs.paper;
 
 //import org.apache.commons.io.FileUtils;
 
+import edu.brandeis.cs.json2json.Json2Json;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import gate.CorpusController;
 import org.apache.commons.io.FileUtils;
 import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.json.JSONObject;
-import org.json.XML;
 
 import java.io.File;
 import java.util.Collection;
@@ -33,7 +32,7 @@ public class RunSpaceBank extends Compare {
                 File xmlFile = new File(fil.getPath().replace(".txt", ".gateannie.xml"));
                 String xml = gateExecute(gateAnnie, fil.getAbsolutePath());
                 FileUtils.writeStringToFile(xmlFile, xml, "UTF-8");
-                JSONObject xml2json = XML.toJSONObject(xml);
+                String xml2json = Json2Json.xml2json(xml);
                 File jsonFile = new File(fil.getPath().replace(".txt", ".gateannie.xml.json"));
                 FileUtils.writeStringToFile(jsonFile, xml2json.toString());
 
@@ -41,7 +40,7 @@ public class RunSpaceBank extends Compare {
                 xmlFile = new File(fil.getPath().replace(".txt", ".gateopennlp.xml"));
                 xml = gateExecute(gateOpennlp, fil.getAbsolutePath());
                 FileUtils.writeStringToFile(xmlFile, xml,"UTF-8");
-                xml2json = XML.toJSONObject(xml);
+                xml2json = Json2Json.xml2json(xml);
                 jsonFile = new File(fil.getPath().replace(".txt", ".gateopennlp.xml.json"));
                 FileUtils.writeStringToFile(jsonFile, xml2json.toString());
 
@@ -49,7 +48,7 @@ public class RunSpaceBank extends Compare {
                 xmlFile = new File(fil.getPath().replace(".txt", ".stanfordnlp.xml"));
                 xml = stanfordnlp(pipeline, fil.getAbsolutePath());
                 FileUtils.writeStringToFile(xmlFile, xml, "UTF-8");
-                xml2json = XML.toJSONObject(xml);
+                xml2json = Json2Json.xml2json(xml);
                 jsonFile = new File(fil.getPath().replace(".txt", ".stanfordnlp.xml.json"));
                 FileUtils.writeStringToFile(jsonFile, xml2json.toString());
 
@@ -57,7 +56,7 @@ public class RunSpaceBank extends Compare {
                 xmlFile = new File(fil.getPath().replace(".txt", ".uimaopennlp.xml"));
                 xml = opennlpuima(aae, fil.getAbsolutePath());
                 FileUtils.writeStringToFile(xmlFile, xml, "UTF-8");
-                xml2json = XML.toJSONObject(xml);
+                xml2json = Json2Json.xml2json(xml);
                 jsonFile = new File(fil.getPath().replace(".txt", ".uimaopennlp.xml.json"));
                 FileUtils.writeStringToFile(jsonFile, xml2json.toString());
 

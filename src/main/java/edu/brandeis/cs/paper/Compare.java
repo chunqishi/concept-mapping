@@ -7,6 +7,7 @@ import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
+import edu.brandeis.cs.json2json.Json2Json;
 import edu.brandeis.cs.uima.AnnotatorPipeline;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.pipeline.XMLOutputter;
@@ -31,8 +32,6 @@ import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.XmlCasSerializer;
-import org.json.JSONObject;
-import org.json.XML;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -291,11 +290,11 @@ public class Compare {
         System.out.println(savefile);
         FileUtils.writeStringToFile(savefile, opennlpuima);
 
-        JSONObject xml2json = XML.toJSONObject(gateannie);
+        String xml2json = Json2Json.xml2json(gateannie);
         System.out.println(xml2json);
-        xml2json = XML.toJSONObject(stanfordnlp);
+        xml2json = Json2Json.xml2json(stanfordnlp);
         System.out.println(xml2json);
-        xml2json = XML.toJSONObject(opennlpuima);
+        xml2json = Json2Json.xml2json(opennlpuima);
         System.out.println(xml2json);
 
     }

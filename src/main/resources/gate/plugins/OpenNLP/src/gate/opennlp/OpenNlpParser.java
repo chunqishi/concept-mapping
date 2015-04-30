@@ -11,21 +11,19 @@ import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
 import gate.creole.metadata.Optional;
 import gate.creole.metadata.RunTime;
+import opennlp.tools.parser.Parse;
+import opennlp.tools.parser.Parser;
+import opennlp.tools.parser.ParserFactory;
+import opennlp.tools.parser.ParserModel;
+import opennlp.tools.util.Span;
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import opennlp.tools.parser.Parse;
-import opennlp.tools.parser.Parser;
-import opennlp.tools.parser.ParserFactory;
-import opennlp.tools.parser.ParserModel;
-import opennlp.tools.util.Span;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 
 /**
  * Wrapper for the opennlp parser

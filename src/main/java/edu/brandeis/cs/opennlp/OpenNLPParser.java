@@ -1,17 +1,13 @@
 package edu.brandeis.cs.opennlp;
 
 import com.cedarsoftware.util.io.JsonWriter;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import opennlp.tools.cmdline.parser.ParserTool;
 import opennlp.tools.parser.Parse;
 import opennlp.tools.parser.Parser;
 import opennlp.tools.parser.ParserFactory;
 import opennlp.tools.parser.ParserModel;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
 /**

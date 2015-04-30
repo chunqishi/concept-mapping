@@ -1,11 +1,5 @@
 package edu.brandeis.cs.opennlp;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
 import opennlp.tools.coref.DefaultLinker;
 import opennlp.tools.coref.DiscourseEntity;
 import opennlp.tools.coref.Linker;
@@ -15,16 +9,18 @@ import opennlp.tools.coref.mention.Mention;
 import opennlp.tools.coref.mention.MentionContext;
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.TokenNameFinderModel;
-import opennlp.tools.parser.AbstractBottomUpParser;
-import opennlp.tools.parser.Parse;
-import opennlp.tools.parser.Parser;
-import opennlp.tools.parser.ParserFactory;
-import opennlp.tools.parser.ParserModel;
+import opennlp.tools.parser.*;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.Span;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class CoRefProcessor {
 

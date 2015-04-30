@@ -12,19 +12,23 @@
 package gate.plugins.OpenNLP.src.gate.opennlp;
 
 import gate.*;
-import gate.creole.*;
+import gate.creole.AbstractLanguageAnalyser;
+import gate.creole.ExecutionException;
+import gate.creole.ExecutionInterruptedException;
+import gate.creole.ResourceInstantiationException;
 import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
 import gate.creole.metadata.RunTime;
 import gate.creole.metadata.Sharable;
 import gate.util.InvalidOffsetException;
-import java.io.*;
-import java.net.URL;
-import java.text.NumberFormat;
-
 import opennlp.tools.chunker.ChunkerME;
 import opennlp.tools.chunker.ChunkerModel;
 import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.NumberFormat;
 
 /**
  * Wrapper PR for the OpenNLP chunker.

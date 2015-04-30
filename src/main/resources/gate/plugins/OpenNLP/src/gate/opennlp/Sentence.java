@@ -11,9 +11,14 @@
  */
 package gate.plugins.OpenNLP.src.gate.opennlp;
 
-import java.util.*;
+import gate.Annotation;
+import gate.AnnotationSet;
+import gate.FeatureMap;
+import gate.Utils;
 import opennlp.tools.util.Span;
-import gate.*;
+
+import java.util.Iterator;
+import java.util.List;
 
 
 public class Sentence 

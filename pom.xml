@@ -80,11 +80,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.4.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20140107</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.json</groupId>-->
+            <!--<artifactId>json</artifactId>-->
+            <!--<version>20140107</version>-->
+        <!--</dependency>-->
         <!-- Stanford corenlp -->
         <dependency>
             <groupId>edu.stanford.nlp</groupId>

@@ -1,10 +1,9 @@
-import sys, os, traceback
-import json
+import sys
+import os
 import codecs
-import collections
 import re
-import hashlib
 from sklearn import svm
+
 # from sklearn.metrics import jaccard_similarity_score
 import cPickle as pickle
 import time

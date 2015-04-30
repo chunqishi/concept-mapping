@@ -1,6 +1,5 @@
 from sklearn import datasets
 from sklearn import svm
-import numpy as np
 
 
 iris = datasets.load_iris()

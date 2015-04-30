@@ -11,22 +11,29 @@
  */
 package gate.plugins.OpenNLP.src.gate.opennlp;
 
-import java.io.*;
-import java.net.URL;
-import java.text.NumberFormat;
-import java.util.*;
-
-import org.apache.log4j.Logger;
-import opennlp.tools.namefind.NameFinderME;
-import opennlp.tools.namefind.TokenNameFinderModel;
-import opennlp.tools.util.Span;
 import gate.*;
-import gate.creole.*;
+import gate.creole.AbstractLanguageAnalyser;
+import gate.creole.ExecutionException;
+import gate.creole.ExecutionInterruptedException;
+import gate.creole.ResourceInstantiationException;
 import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
 import gate.creole.metadata.RunTime;
 import gate.creole.metadata.Sharable;
 import gate.util.InvalidOffsetException;
+import opennlp.tools.namefind.NameFinderME;
+import opennlp.tools.namefind.TokenNameFinderModel;
+import opennlp.tools.util.Span;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 
 /**

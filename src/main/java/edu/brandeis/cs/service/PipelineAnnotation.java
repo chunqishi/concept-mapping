@@ -1,14 +1,13 @@
 package edu.brandeis.cs.service;
 
-import de.tudarmstadt.ukp.dkpro.core.io.text.TextReader;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpNameFinder;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
+import edu.brandeis.cs.json2json.Json2Json;
 import edu.brandeis.cs.uima.AnnotatorPipeline;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.pipeline.XMLOutputter;
 import gate.*;
 import gate.util.Out;
@@ -27,22 +26,17 @@ import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.cas.Type;
-import org.apache.uima.collection.CollectionReader;
 import org.apache.uima.fit.factory.JCasFactory;
-import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.util.XmlCasSerializer;
-import org.json.XML;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.Properties;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngine;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
-import static org.apache.uima.fit.factory.CollectionReaderFactory.createReader;
 import static org.apache.uima.fit.factory.ExternalResourceFactory.createDependencyAndBind;
 import static org.apache.uima.fit.factory.JCasFactory.createJCasFromPath;
 
@@ -251,7 +245,8 @@ public abstract class PipelineAnnotation  implements IPipelineAnnotation{
 
     @Override
     public String getJSON(String doc) throws Exception{
-        return XML.toJSONObject(getXML(doc)).toString(2);
+//        return XML.toJSONObject(getXML(doc)).toString(2);
+        return Json2Json.xml2json(getXML(doc));
     }
 
     public static class GateAnnie extends PipelineAnnotation{

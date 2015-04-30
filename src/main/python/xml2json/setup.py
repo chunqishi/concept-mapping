@@ -1,6 +1,4 @@
-import os
-
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name = "xml2json",
